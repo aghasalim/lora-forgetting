@@ -1,0 +1,39 @@
+{
+  "benchmark": {
+    "json_parsed": 1.0,
+    "schema_ok": 1.0,
+    "vendor": 0.9333,
+    "amount": 1.0,
+    "currency": 0.9333,
+    "date": 0.9333,
+    "category": 0.9111,
+    "all_correct": 0.7556,
+    "n": 45,
+    "label": "tuned",
+    "seconds": 80.5
+  },
+  "synthetic": {
+    "json_parsed": 1.0,
+    "schema_ok": 1.0,
+    "vendor": 1.0,
+    "amount": 1.0,
+    "currency": 0.98,
+    "date": 1.0,
+    "category": 0.9667,
+    "all_correct": 0.9533,
+    "n": 150,
+    "label": "tuned_synth",
+    "seconds": 271.3
+  },
+  "by_kind": {
+    "ambiguous_category": 1.0,
+    "currency": 0.6,
+    "direct": 1.0,
+    "distractor": 0.8,
+    "messy": 0.4,
+    "missing_field": 0.6,
+    "not_expense": 1.0,
+    "relative_date": 0.8,
+    "written_amount": 0.6
+  }
+}

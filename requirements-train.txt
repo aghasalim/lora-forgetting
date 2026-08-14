@@ -1,0 +1,8 @@
+# Full stack for training, evaluation and the forgetting check.
+torch>=2.4
+transformers>=4.44
+peft>=0.12
+datasets>=2.20
+accelerate>=0.33
+streamlit>=1.36
+pytest>=8.0

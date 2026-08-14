@@ -1,0 +1,70 @@
+{
+  "label": "tuned",
+  "n_mc": 150,
+  "arc_loglikelihood": 0.7133,
+  "arc_generative": 0.8867,
+  "arc_parse_rate": 1.0,
+  "open_ended": 1.0,
+  "open_ended_log": [
+    {
+      "q": "What is the capital of France?",
+      "answer": "The capital of France is Paris.",
+      "ok": true
+    },
+    {
+      "q": "Who wrote the play Romeo and Juliet?",
+      "answer": "Romeo and Juliet was written by William Shakespeare.",
+      "ok": true
+    },
+    {
+      "q": "What is 17 plus 25?",
+      "answer": "The sum of 17 and 25 is 42.",
+      "ok": true
+    },
+    {
+      "q": "Name the largest planet in our solar system.",
+      "answer": "The largest planet in our solar system is Jupiter.",
+      "ok": true
+    },
+    {
+      "q": "What gas do plants absorb from the air for photosynthesis?",
+      "answer": "Plants absorb carbon dioxide (CO2) from the air during photosynthesis. This process is crucial for their growth and development. The chemical equation for photosynthesis can be represented as:\n\n6 CO2",
+      "ok": true
+    },
+    {
+      "q": "In which continent is Brazil located?",
+      "answer": "Brazil is located in South America.",
+      "ok": true
+    },
+    {
+      "q": "What is the chemical symbol for gold?",
+      "answer": "The chemical symbol for gold is Au.",
+      "ok": true
+    },
+    {
+      "q": "How many sides does a hexagon have?",
+      "answer": "A hexagon has six sides.",
+      "ok": true
+    },
+    {
+      "q": "What language is primarily spoken in Japan?",
+      "answer": "Japanese is the primary language spoken in Japan. It is an East Asian language and belongs to the Japonic language family. The Japanese language has several dialects, including standard Japanese (which is used",
+      "ok": true
+    },
+    {
+      "q": "Translate 'good morning' into French.",
+      "answer": "\"Good morning\" in French is \"Bonjour.\"",
+      "ok": true
+    },
+    {
+      "q": "What is the boiling point of water in Celsius at sea level?",
+      "answer": "The boiling point of water in Celsius at sea level is 100\u00b0C (212\u00b0F).",
+      "ok": true
+    },
+    {
+      "q": "Who painted the Mona Lisa?",
+      "answer": "Leonardo da Vinci painted the Mona Lisa.",
+      "ok": true
+    }
+  ]
+}
