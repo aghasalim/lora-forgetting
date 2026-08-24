@@ -15,7 +15,40 @@ lead.
 
 ---
 
-## Both numbers, up front
+
+---
+
+## Abstract
+
+LoRA fine-tuning is usually reported as a gain on the target task. This work
+reports the gain and the cost together, fine-tuning a small language model for
+structured expense extraction and then measuring whether general capability
+survived.
+
+The task gain is substantial: exact-match on all fields simultaneously rises from
+46.7% to 75.6% on the held-out benchmark. The forgetting check finds no
+measurable cost at this adapter size — ARC log-likelihood moves by 0.7 points,
+ARC generative accuracy and open-ended answering are unchanged to the digit.
+
+The more useful result is in the per-slice breakdown. The aggregate improvement
+hides two slices that get *worse*: `written_amount` falls from 1.00 to 0.60 and
+`currency` from 0.80 to 0.60, while two more are unchanged. The adapter is
+redistributing accuracy across question kinds, not lifting all of them, which a
+single headline number cannot show.
+
+A separate finding concerns the forgetting check itself. Scoring ARC by
+log-likelihood ranking and by free generation disagrees by 16.7 points on
+identical items and the identical model, so which protocol a forgetting claim
+used is part of that claim.
+
+**Contributions.** (i) Task gain and capability retention measured on the same
+adapter. (ii) A per-slice breakdown showing redistribution the aggregate hides.
+(iii) Evidence that ARC scoring protocol shifts the number by more than the
+fine-tuning does.
+
+---
+
+## 1. Both numbers, up front
 
 **Target task**, 45 hand-written cases whose vendors never appear in training:
 
@@ -48,7 +81,13 @@ am not going to call that degradation.
 
 ---
 
-## Why the forgetting check is two measurements
+![task gain on every extracted field](reports/figures/task-gain.png)
+
+![general capability before and after](reports/figures/forgetting.png)
+
+## 2. Why the forgetting check is two measurements
+
+![the same ARC items scored two ways](reports/figures/arc-protocol.png)
 
 "Forgetting" hides two failures that need different fixes, and one number cannot
 tell them apart:
@@ -67,7 +106,13 @@ have pointed at the wrong remedy. Here both held, so neither fix is needed.
 
 ---
 
-## What the aggregate number hides
+## 3. What the aggregate number hides
+
+![per-slice change after tuning](reports/figures/by-kind.png)
+
+Two slices get worse and two are unchanged while the aggregate improves. The
+adapter is redistributing accuracy between question kinds rather than lifting all
+of them, which is invisible in a single exact-match number.
 
 +28.9 points looks like an unambiguous win. Broken out by difficulty it is not:
 
@@ -111,7 +156,7 @@ conformance) and that accounts for much of the headline gain.
 
 ---
 
-## The generalisation gap I built the experiment to see
+## 4. The generalisation gap I built the experiment to see
 
 | set | base | fine-tuned |
 |---|---|---|
@@ -132,7 +177,7 @@ mixes obscure vendors with ten currencies including DKK, NOK and PLN.
 
 ---
 
-## Running it
+## 5. Running it
 
 ```bash
 make setup && make data && make baseline
@@ -152,7 +197,9 @@ make app
 
 ---
 
-## Notes on training this on a laptop
+## 6. Notes on training this on a laptop
+
+![training loss](reports/figures/training.png)
 
 `make feasibility` measures step time and memory before committing to a run, and
 it changed the project twice.
@@ -177,7 +224,7 @@ as run, not quietly re-run with better settings.
 
 ---
 
-## What is not here
+## 7. Limitations
 
 - **No rank or target-module sweep.** `r=16` on attention projections was chosen
   up front and never varied. One run is 74 minutes on this hardware, so a sweep
@@ -189,7 +236,7 @@ as run, not quietly re-run with better settings.
 - **No QLoRA comparison.** `bitsandbytes` has no MPS backend, so 4-bit
   quantisation is not available on this machine at all.
 
-## Layout
+## 8. Repository layout
 
 ```
 src/loraft/
@@ -204,6 +251,6 @@ tests/                20 tests, no model or network needed
 RESULTS.md            generated from the measured JSON, not hand-typed
 ```
 
-## License
+## 9. Licence
 
 MIT — see [LICENSE](LICENSE).
