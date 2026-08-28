@@ -6,7 +6,7 @@ Long form detail moved out of the README.
 ## 2. Why the forgetting check is two measurements
 
 
-![the same ARC items scored two ways](reports/figures/arc-protocol.png)
+![the same ARC items scored two ways](../reports/figures/arc-protocol.png)
 
 "Forgetting" hides two failures that need different fixes, and one number cannot
 tell them apart:
@@ -29,7 +29,7 @@ have pointed at the wrong remedy. Here both held, so neither fix is needed.
 ## 3. What the aggregate number hides
 
 
-![per-slice change after tuning](reports/figures/by-kind.png)
+![per-slice change after tuning](../reports/figures/by-kind.png)
 
 Two slices get worse and two are unchanged while the aggregate improves. The
 adapter is redistributing accuracy between question kinds rather than lifting all
@@ -103,7 +103,7 @@ mixes obscure vendors with ten currencies including DKK, NOK and PLN.
 ## 6. Notes on training this on a laptop
 
 
-![training loss](reports/figures/training.png)
+![training loss](../reports/figures/training.png)
 
 `make feasibility` measures step time and memory before committing to a run, and
 it changed the project twice.
