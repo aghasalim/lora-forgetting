@@ -98,7 +98,12 @@ Two slices get worse and two are unchanged while the aggregate improves.
 
 Full detail in [notes/METHODS.md](notes/METHODS.md#3-what-the-aggregate-number-hides).
 ## 4. The generalisation gap I built the experiment to see
-| set | base | fine-tuned | |---|---|---| | held-out synthetic (same generator as training) | 28.0% | **95.3%** | | hand-written benchmark (disjoint vendors, messier) | 46.7% | **75.6%** | Had I generated the benchmark from the same script as the training data, this project would report **95.3%** and be measuring template memorisation.
+| set | base | fine-tuned |
+|---|---|---|
+| held-out synthetic (same generator as training) | 28.0% | **95.3%** |
+| hand-written benchmark (disjoint vendors, messier) | 46.7% | **75.6%** |
+
+Had I generated the benchmark from the same script as the training data, this project would report **95.3%** and be measuring template memorisation.
 
 Full detail in [notes/METHODS.md](notes/METHODS.md#4-the-generalisation-gap-i-built-the-experiment-to-see).
 ## 5. Running it
