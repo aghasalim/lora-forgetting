@@ -4,7 +4,7 @@
 [![python](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-Fine-tuning`Qwen2.5-1.5B-Instruct` with LoRA to pull structured JSON out of
+Fine-tuning `Qwen2.5-1.5B-Instruct` with LoRA to pull structured JSON out of
 informal expense messages, by a third-year Applied Computer Science (AI)
 student. Trained on a MacBook Pro, no CUDA, no cloud GPU.
 
@@ -31,7 +31,7 @@ measurable cost at this adapter size, ARC log-likelihood moves by 0.7 points,
 ARC generative accuracy and open-ended answering are unchanged to the digit.
 
 The more useful result is in the per-slice breakdown. The aggregate improvement
-hides two slices that get *worse*:`written_amount` falls from 1.00 to 0.60 and
+hides two slices that get *worse*: `written_amount` falls from 1.00 to 0.60 and
 `currency` from 0.80 to 0.60, while two more are unchanged. The adapter is
 redistributing accuracy across question kinds, not lifting all of them, which a
 single headline number cannot show.
@@ -116,7 +116,7 @@ make setup && make data && make baseline
 make train && make eval && make forgetting && make report
 ```
 
-That reproduces every number above.`make baseline` before`make train` is the
+That reproduces every number above. `make baseline` before `make train` is the
 order on purpose: a baseline measured after you already have a fine-tuned model
 is a baseline you can talk yourself out of.
 

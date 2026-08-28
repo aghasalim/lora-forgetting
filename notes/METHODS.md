@@ -16,7 +16,7 @@ tell them apart:
   choice still scores normally here if it still knows the answer.
 - **Instruction following** asks the same questions in chat and parses what
   comes out. A model fine-tuned to emit only JSON can retain every fact and
-  still fail this, by replying`{"vendor": null, ...}` to a history question.
+  still fail this, by replying `{"vendor": null, ...}` to a history question.
 
 If knowledge holds and generation collapses, nothing was forgotten, the model
 was over-specialised into one output format, and the fix is mixing general data
@@ -54,11 +54,11 @@ project.
 
 The base model's biggest weakness was not extraction, it was *abstention*: 0% on
 messages that are not expenses, and 0% on messages with missing fields. It
-always filled every slot in. Fine-tuning taught it that`null` is a real answer,
+always filled every slot in. Fine-tuning taught it that `null` is a real answer,
 which is where most of the gain comes from.
 
 The regressions are narrower than they look. Inspecting all four broken cases,
-three are the same failure: **category falling back to`"other"` for a vendor
+three are the same failure: **category falling back to `"other"` for a vendor
 the training data never contained**, Slack and Namecheap are both obviously
 software, and the base model knew that from pretraining. Net across the
 benchmark, category went 32/45 → 41/45, so the fine-tune **fixed 12 and broke
@@ -70,7 +70,7 @@ was inventing vendors where the gold answer is null. It does it once in eight
 cases, and so does the base model. Identical. Not a regression.
 
 The base model's failures were mostly *schema* failures rather than reading
-failures. It emitted categories that do not exist in the schema it was given`transportation`,`hotel`,`donation`, and produced invalid JSON 6.7% of the
+failures. It emitted categories that do not exist in the schema it was given `transportation`, `hotel`, `donation`, and produced invalid JSON 6.7% of the
 time. Fine-tuning fixed the format completely (100% valid JSON, 100% schema
 conformance) and that accounts for much of the headline gain.
 
