@@ -126,6 +126,10 @@ make app
 
 ![training loss](reports/figures/training.png)
 
+![the same training run replayed against the wall clock](reports/figures/training.gif)
+
+*Same committed training log as the figure above, replayed in time: the loss curve and the elapsed minutes are what move, the axes and the logged numbers stay fixed.*
+
 Full detail in [notes/METHODS.md](notes/METHODS.md#6-notes-on-training-this-on-a-laptop).
 ## 7. Limitations
 
