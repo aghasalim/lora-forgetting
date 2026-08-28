@@ -46,13 +46,13 @@ WORD = {"EUR": "euros", "GBP": "pounds", "USD": "dollars", "CHF": "francs",
 # Structurally unlike the benchmark phrasings, which lead with the purchase.
 TEMPLATES = [
     "Expense claim: {vendor}, {amt}, {d}.",
-    "{vendor} — {amt} — {d}",
+    "{vendor}, {amt}, {d}",
     "Please reimburse {amt} paid to {vendor} on {d}.",
     "Card ending 4417 charged {amt} by {vendor}, {d}.",
     "{d}: {vendor} {amt}",
     "Receipt attached. {vendor}. {amt}. Date of purchase {d}.",
     "Submitting {amt} for {vendor} ({d}).",
-    "Company card — {vendor} — {amt} on {d}",
+    "Company card, {vendor}, {amt} on {d}",
 ]
 NON_EXPENSE = [
     "Standup is cancelled tomorrow, I'll post notes instead.",

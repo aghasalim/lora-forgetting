@@ -41,7 +41,7 @@ def extract_json(raw: str) -> dict | None:
 
     Tolerates markdown fences and leading prose, because whether the model wraps
     its answer is a formatting habit rather than an extraction failure. Does NOT
-    tolerate missing or extra keys -- that is a schema failure and is scored as
+    tolerate missing or extra keys, that is a schema failure and is scored as
     one.
     """
     if not raw:

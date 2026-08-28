@@ -1,7 +1,7 @@
 """Central configuration.
 
 Defaults are the ones the feasibility run justified, not the ones a tutorial
-would use -- see `scripts/feasibility.py` and entry 1 of NOTES.md.
+would use, see `scripts/feasibility.py` and entry 1 of NOTES.md.
 """
 from __future__ import annotations
 
@@ -22,20 +22,20 @@ BASE_MODEL = os.getenv("BASE_MODEL", "Qwen/Qwen2.5-1.5B-Instruct")
 
 # bfloat16, not float32. Measured on an M4/24 GB: fp32 needs 19.5 GB and runs at
 # 69 s/step, bf16 needs 14.2 GB and runs at 4.2 s/step. The 16x is mostly
-# unified-memory pressure rather than arithmetic -- fp32 sits close enough to the
+# unified-memory pressure rather than arithmetic: fp32 sits close enough to the
 # ceiling that the machine thrashes.
 
 def __getattr__(name: str):
     """Resolve `DTYPE` and `DEVICE` on first access, importing torch lazily.
 
-    They were module-level, which meant importing this config -- for a path, a
-    seed, a filename -- dragged in torch. CI installs only pytest, on the stated
+    They were module-level, which meant importing this config, for a path, a
+    seed, a filename, dragged in torch. CI installs only pytest, on the stated
     grounds that these tests "need no model, no GPU and no network", so
     collection died at import with ModuleNotFoundError and the badge went red
     while the tests themselves were fine.
 
     PEP 562 keeps the call sites unchanged: `config.DTYPE` still works, and only
-    train/evaluate/forgetting touch it -- all of which import torch anyway.
+    train/evaluate/forgetting touch it, all of which import torch anyway.
     Installing torch in CI would also fix the red badge, at ~200 MB against a
     workflow built to stay fast, and would leave the real coupling in place.
     """
@@ -77,7 +77,7 @@ LORA_DROPOUT = 0.05
 #
 # Not tuned: r=16 and this module set were chosen up front and never swept, so
 # nothing here is claimed to be optimal. The rank/target sweep is listed as
-# untested in the README rather than implied to have been done -- one run took
+# untested in the README rather than implied to have been done: one run took
 # 74 minutes on this hardware and a sweep was out of budget.
 TARGET_MODULES = ["q_proj", "k_proj", "v_proj", "o_proj"]
 

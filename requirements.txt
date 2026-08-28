@@ -1,7 +1,7 @@
 # Deps for the hosted comparison app ONLY.
 #
 # Streamlit Community Cloud installs this file, and the app there reads
-# precomputed predictions from reports/ rather than loading a model -- a 1.5B
+# precomputed predictions from reports/ rather than loading a model: a 1.5B
 # model needs ~3 GB of weights against a 1 GB free tier, so a live hosted demo
 # of this project cannot honestly exist. Training and evaluation deps live in
 # requirements-train.txt, which is what `make setup` installs.

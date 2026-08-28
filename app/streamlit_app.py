@@ -53,7 +53,7 @@ if not base or not tuned:
 c1, c2, c3 = st.columns(3)
 b_acc = s_base["benchmark"]["all_correct"]
 t_acc = s_tuned["benchmark"]["all_correct"]
-c1.metric("base — all fields correct", f"{b_acc:.1%}")
+c1.metric("base, all fields correct", f"{b_acc:.1%}")
 c2.metric("fine-tuned", f"{t_acc:.1%}", delta=f"{t_acc - b_acc:+.1%}")
 if f_base and f_tuned:
     d = f_tuned["arc_loglikelihood"] - f_base["arc_loglikelihood"]

@@ -3,17 +3,17 @@
 Two measurements, because "forgetting" hides two different failures that call
 for different fixes:
 
-**Knowledge retention** -- scored by log-likelihood over the answer options. No
+**Knowledge retention**, scored by log-likelihood over the answer options. No
 generation involved, so a model that has lost the *habit* of answering multiple
 choice still scores normally if it still knows the answer.
 
-**Instruction following** -- the same questions asked in chat, answer parsed
+**Instruction following**, the same questions asked in chat, answer parsed
 from what it generates. A model fine-tuned to emit nothing but JSON can retain
 every fact and still fail here, by replying `{"vendor": null, ...}` to "what is
 the capital of France".
 
 If knowledge holds and generation collapses, the model has not forgotten
-anything -- it has been over-specialised into one output format, and the fix is
+anything, it has been over-specialised into one output format, and the fix is
 data mixing rather than a smaller learning rate. Reporting only one of these
 numbers would point at the wrong remedy.
 """

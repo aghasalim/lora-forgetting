@@ -1,7 +1,7 @@
 """Is LoRA fine-tuning actually tractable on this machine?
 
 Run before designing anything around it. Loads the real model, attaches the real
-adapter, and times real training steps -- a guess about MPS throughput is not
+adapter, and times real training steps, a guess about MPS throughput is not
 worth building a project on.
 """
 import time
