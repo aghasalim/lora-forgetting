@@ -86,13 +86,23 @@ am not going to call that degradation.
 ![general capability before and after](reports/figures/forgetting.png)
 
 ## 2. Why the forgetting check is two measurements
-"Forgetting" hides two failures that need different fixes, and one number cannot tell them apart: - **Knowledge** is scored by log-likelihood over the answer options, no generation at all.
+"Forgetting" hides two failures that need different fixes, and one number cannot
+tell them apart. Knowledge is scored by log-likelihood over the answer options,
+with no generation at all. Instruction following asks the same questions in chat
+and parses whatever comes back, and on the same 150 ARC items and the same base
+model the two protocols disagree by 16.7 points, 72.0% ranked against 88.7%
+generated. Both held after tuning, 72.0% to 71.3% and 88.7% to 88.7%, so this
+model lost neither the facts nor the habit of answering in prose.
 
 ![the same ARC items scored two ways](reports/figures/arc-protocol.png)
 
 Full detail in [notes/METHODS.md](notes/METHODS.md#2-why-the-forgetting-check-is-two-measurements).
 ## 3. What the aggregate number hides
-Two slices get worse and two are unchanged while the aggregate improves.
+Two slices get worse while the aggregate improves: written-out amounts drop from
+100% to 60%, currency from 80% to 60%. I read all four broken cases and three are
+the same failure, category falling back to "other" for a vendor that never
+appeared in the training data. Across the whole benchmark category still went
+32/45 to 41/45, so the fine-tune fixed 12 cases and broke 3.
 
 ![per-slice change after tuning](reports/figures/by-kind.png)
 
@@ -103,7 +113,13 @@ Full detail in [notes/METHODS.md](notes/METHODS.md#3-what-the-aggregate-number-h
 | held-out synthetic (same generator as training) | 28.0% | **95.3%** |
 | hand-written benchmark (disjoint vendors, messier) | 46.7% | **75.6%** |
 
-Had I generated the benchmark from the same script as the training data, this project would report **95.3%** and be measuring template memorisation.
+Had I generated the benchmark from the same script as the training data, this
+project would report **95.3%** and be measuring template memorisation. The gap
+between those two rows is 19.7 points, and that is the share of the gain that
+does not survive messages the generator never wrote. The base model is the odd
+one out here, scoring worse on the synthetic set (28.0%) than on the hand-written
+one (46.7%), because the benchmark uses famous vendors it already knew from
+pretraining while the synthetic set mixes obscure ones with ten currencies.
 
 Full detail in [notes/METHODS.md](notes/METHODS.md#4-the-generalisation-gap-i-built-the-experiment-to-see).
 ## 5. Running it
@@ -127,7 +143,13 @@ make app
 ---
 
 ## 6. Notes on training this on a laptop
-`make feasibility` measures step time and memory before committing to a run, and it changed the project twice.
+`make feasibility` measures step time and memory before committing to a run, and
+it changed the project twice. First it ruled out float32: at fp32 the run needed
+19.5 GB and 69 s/step, in bfloat16 it needed 14.2 GB and 4.2 s/step. Then the
+prediction itself turned out to be wrong, because it timed fixed-length dummy
+batches, and the real run on variable-length ones took 74 minutes. Loss was
+already down to 0.003 by step 140 of 1014 and first touched 0.0001 at step 200,
+so three epochs was roughly three times more than this task needed.
 
 ![training loss](reports/figures/training.png)
 
