@@ -160,14 +160,14 @@ so three epochs was roughly three times more than this task needed.
 Full detail in [notes/METHODS.md](notes/METHODS.md#6-notes-on-training-this-on-a-laptop).
 ## 7. Limitations
 
-- **No rank or target-module sweep.**`r=16` on attention projections was chosen
+- **No rank or target-module sweep.** `r=16` on attention projections was chosen
   up front and never varied. One run is 74 minutes on this hardware, so a sweep
   was out of budget. Nothing in this repo claims those values are optimal.
 - **No hosted live demo.** The comparison app reads precomputed predictions
   because a 1.5B model needs ~3 GB against a 1 GB free tier. Showing all 45
   benchmark cases is more informative than a text box anyway, you can see the
   failures rather than the examples I would have picked.
-- **No QLoRA comparison.**`bitsandbytes` has no MPS backend, so 4-bit
+- **No QLoRA comparison.** `bitsandbytes` has no MPS backend, so 4-bit
   quantisation is not available on this machine at all.
 
 ## 8. Repository layout
