@@ -1,4 +1,4 @@
-.PHONY: setup data baseline train eval forgetting report app test docker clean
+.PHONY: setup data baseline train eval forgetting report app test docker clean report-check
 PY := .venv/bin/python
 
 setup:
@@ -38,3 +38,6 @@ docker:
 
 clean:
 	rm -rf reports/*.jsonl reports/*.json artifacts/adapter
+
+report-check:  ## fail if RESULTS.md no longer matches the generator
+	$(PY) -m src.loraft.report --check

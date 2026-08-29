@@ -5,6 +5,8 @@ numbers actually produced by the last run.
 """
 from __future__ import annotations
 
+import sys
+
 import json
 
 from . import config
@@ -57,7 +59,25 @@ def main() -> None:
                           ("open_ended", "open-ended factual probes")]:
             L.append(f"| {name} | {fb[key]:.1%} | {ft[key]:.1%} | {ft[key]-fb[key]:+.1%} |")
 
-    (config.REPORTS.parent / "RESULTS.md").write_text("\n".join(L) + "\n")
+    text = "\n".join(L) + "\n"
+    path = config.REPORTS.parent / "RESULTS.md"
+    if "--check" in sys.argv[1:]:
+        current = path.read_text() if path.exists() else ""
+        if current != text:
+            cur, want = current.split("\n"), text.split("\n")
+            for i in range(max(len(cur), len(want))):
+                a = cur[i] if i < len(cur) else "<end of file>"
+                b = want[i] if i < len(want) else "<end of file>"
+                if a != b:
+                    raise SystemExit(
+                        f"RESULTS.md has drifted from report.py at line {i + 1}.\n"
+                        f"  committed: {a}\n  generated: {b}\n"
+                        "Run `make report` and commit the result. RESULTS.md is "
+                        "generated, so editing it by hand is undone by the next run."
+                    )
+        print("RESULTS.md is up to date")
+        return
+    path.write_text(text)
     print(f"wrote {config.REPORTS.parent / 'RESULTS.md'}")
 
 

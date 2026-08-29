@@ -16,3 +16,6 @@ jobs:
       # no network, so CI stays fast and reproducible for anyone.
       - run: pip install pytest
       - run: python -m pytest tests/ -q
+
+      # RESULTS.md is generated. This fails if someone edits it by hand.
+      - run: python -m src.loraft.report --check
