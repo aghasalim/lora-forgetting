@@ -19,3 +19,36 @@ jobs:
 
       # RESULTS.md is generated. This fails if someone edits it by hand.
       - run: python -m src.loraft.report --check
+
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      # sqlite3, gcc, go, cargo and ruby are already on the runner image.
+      - name: install R
+        run: command -v Rscript || sudo apt-get install -y --no-install-recommends r-base-core
+
+      # Eight independent recomputations of the published numbers. Failing here
+      # means two implementations disagree about what the data says.
+      - run: ./verify/verify.sh
+
+      # A check that passes on corrupted input is checking nothing, so the run
+      # is repeated on a damaged predictions file and is required to fail.
+      - name: the checks must reject a corrupted results file
+        run: |
+          cp reports/preds_tuned.jsonl "$RUNNER_TEMP/preds_tuned.jsonl"
+          sed -i '4s/"all_correct": true/"all_correct": false/' reports/preds_tuned.jsonl
+          if ./verify/verify.sh; then
+            echo "verify.sh passed on a corrupted predictions file"
+            exit 1
+          fi
+          cp "$RUNNER_TEMP/preds_tuned.jsonl" reports/preds_tuned.jsonl
+          git diff --exit-code -- reports/preds_tuned.jsonl
+          ./verify/verify.sh

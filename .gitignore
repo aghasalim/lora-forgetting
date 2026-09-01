@@ -11,3 +11,6 @@ data/*.jsonl
 # The adapter is committed: 17 MB, and the whole point of LoRA is that the
 # artefact is small enough to ship. Base weights are not, and come from the Hub.
 artifacts/**/checkpoint-*
+
+# Build products of the verification programs under verify/.
+verify/paired/target/
