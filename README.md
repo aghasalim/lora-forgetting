@@ -134,7 +134,9 @@ make train && make eval && make forgetting && make report
 
 That reproduces every number above. `make baseline` before `make train` is the
 order on purpose: a baseline measured after you already have a fine-tuned model
-is a baseline you can talk yourself out of.
+is a baseline you can talk yourself out of. Every number is also recomputed from
+the raw prediction and log files by independent implementations in `verify/`,
+and CI fails the build if any of them disagree.
 
 ```bash
 make app
@@ -158,50 +160,7 @@ so three epochs was roughly three times more than this task needed.
 *The whole 74 minute run against the wall clock. Worth watching for the pace rather than the shape: most of the drop is over inside the first quarter, which is why the feasibility check mattered more than the loss curve did.*
 
 Full detail in [notes/METHODS.md](notes/METHODS.md#6-notes-on-training-this-on-a-laptop).
-## 7. Everything here is computed twice
-
-Every number in this README came out of one program. `src/loraft/task.py`
-scores the predictions, `aggregate()` averages them, `report.py` renders
-RESULTS.md, and the figures are drawn from the same JSON. `make report-check`
-compares RESULTS.md to the generator that wrote it, which catches a hand edit
-and nothing else, because the generator and its checker read the same file. If
-the averaging were wrong, every check in the repository would have agreed with
-it.
-
-So the published numbers are recomputed under `verify/` by eight programs in
-eight languages, from `reports/preds_*.jsonl`, `reports/forgetting_*.json` and
-`reports/train_log.csv` rather than from the summaries. An error in the Python
-would have to be repeated identically in all of them to survive.
-
-```bash
-./verify/verify.sh          # 8 passed, 0 failed, 0 skipped
-```
-
-| language | what it recomputes, and from what | measured agreement |
-|---|---|---|
-| SQL | all four summary blocks and the by-difficulty table, straight from the prediction files | 54 values, 0 mismatches at the 4 decimal places Python rounds to |
-| C | the scorer itself: JSON extraction, field normalisation and comparison, redone from the raw model output | 390 predictions, 3120 field verdicts, 0 disagreements; all four rates exact |
-| Go | structure of every file under `reports/`, and every percentage printed in either document | 9 files, 496 rows, 0 ragged rows or NaN; 91 printed percentages within 0.05 points |
-| R | intervals the repo never put on its point estimates: paired bootstrap, exact McNemar, binomial | four rates exact; bootstrap se 9.2 points against an analytic 9.2, ratio 0.999 |
-| Rust | the same test by exhaustive enumeration of all 2097152 sign assignments, and a 2000000 draw bootstrap | p = 0.007197380, identical to R to 9 decimals; interval edges identical to 0.000 points |
-| JavaScript | the five claims section 6 makes about the training run, against the log | 5 claims hold; 73.9 logged minutes against a claimed 74 |
-| Ruby | the counting claims made in prose and in no table, such as 32/45 to 41/45 | 11 claims, all exact |
-| Java | all four RESULTS.md tables rebuilt from the predictions and compared as text | 23 rows, character for character |
-
-The division is deliberate. Only the C program reimplements the scorer, so it
-is the only one that would notice a wrong verdict on a single field; the rest
-start from the verdicts and would notice a wrong average. Corrupting one
-`all_correct` flag in one prediction file fails 6 of the 8, and CI does exactly
-that: it runs the suite, flips one verdict, requires the suite to fail,
-restores the file and requires it to pass again. A check that survives its
-input being broken is not checking anything.
-
-This found one error. Section 4 said the generalisation gap was 19.7 points,
-which is the difference between the two rounded percentages in that table. The
-difference between the rates is 19.78, which prints as 19.8, and the README now
-says 19.8.
-
-## 8. Limitations
+## 7. Limitations
 
 - **No rank or target-module sweep.** `r=16` on attention projections was chosen
   up front and never varied. One run is 74 minutes on this hardware, so a sweep
@@ -213,7 +172,7 @@ says 19.8.
 - **No QLoRA comparison.** `bitsandbytes` has no MPS backend, so 4-bit
   quantisation is not available on this machine at all.
 
-## 9. Repository layout
+## 8. Repository layout
 
 ```
 src/loraft/
@@ -225,11 +184,11 @@ src/loraft/
   forgetting.py   knowledge vs instruction-following, measured separately
 eval/eval_set.jsonl   45 hand-written cases
 tests/                20 tests, no model or network needed
-verify/               the published numbers recomputed in eight other languages
+verify/               the published numbers, recomputed independently
 RESULTS.md            generated from the measured JSON, not hand-typed
 ```
 
-## 10. Licence
+## 9. Licence
 
 MIT, see [LICENSE](LICENSE).
 
