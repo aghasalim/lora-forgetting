@@ -121,8 +121,9 @@ Freeing it restored the speed. The whole run took 74 minutes against a predicted
 the same lesson this repo reports about synthetic evaluation data, arriving from
 an unexpected direction.
 
-Final loss was 0.0001 by step 140 of 1014, so **3 epochs was roughly 3× more
-than this task needed**. I would use one epoch next time. The over-training is
+The loss was down to 0.003 by step 140 of 1014 and first touched 0.0001 at
+step 200, inside the first epoch, so **3 epochs was roughly 3× more than this
+task needed**. I would use one epoch next time. The over-training is
 what makes the forgetting result meaningful rather than lucky, so it is reported
 as run, not quietly re-run with better settings.
 
