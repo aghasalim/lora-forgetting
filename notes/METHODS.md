@@ -126,4 +126,6 @@ than this task needed**. I would use one epoch next time. The over-training is
 what makes the forgetting result meaningful rather than lucky, so it is reported
 as run, not quietly re-run with better settings.
 
+The log itself, interval by interval, is read back in [TRAINING.md](TRAINING.md).
+
 ---

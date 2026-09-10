@@ -156,6 +156,8 @@ so three epochs was roughly three times more than this task needed.
 *The whole 74 minute run against the wall clock. Worth watching for the pace rather than the shape: most of the drop is over inside the first quarter, which is why the feasibility check mattered more than the loss curve did.*
 
 Full detail in [notes/METHODS.md](notes/METHODS.md#6-notes-on-training-this-on-a-laptop).
+The run itself, read back from the log with every setting traced to its
+line, is in [notes/TRAINING.md](notes/TRAINING.md).
 ## 7. Limitations
 
 - **No rank or target-module sweep.** `r=16` on attention projections was chosen
