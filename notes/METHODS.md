@@ -113,13 +113,22 @@ In bfloat16 it needed 14.2 GB and managed 4.2 s/step, a 16× speedup that is
 mostly *memory pressure*, not arithmetic: fp32 sits close enough to the 24 GB
 ceiling that the machine starts swapping.
 
-**And my feasibility number was still wrong.** It measured fixed-length dummy
-batches. Real variable-length batches ran at 7 to 15 s/step, and the run degraded
-over time until I found a Docker VM from an earlier project still holding 6 GB.
-Freeing it restored the speed. The whole run took 74 minutes against a predicted
-26. A benchmark on synthetic batches predicts synthetic throughput, which is
-the same lesson this repo reports about synthetic evaluation data, arriving from
-an unexpected direction.
+**And my feasibility number was wrong in the opposite direction to the one I
+assumed.** It measured fixed-length dummy batches, so I expected real
+variable-length ones to be slower. They were faster: once the machine was
+healthy the run held 2.44 s/step across its last 590 steps, against the 4.2 s
+predicted. What the benchmark could not see was a Docker VM from an earlier
+project still holding 6 GB. From step 180 the pace collapsed to 10.1 s/step on
+average, at its worst 15.95, and stayed there for 240 steps until I found it.
+Freeing it restored 2.44 s/step immediately.
+
+The whole run took 73.9 minutes, an average of 4.39 s/step, which sits within
+5% of the 4.2 s prediction. That agreement is a coincidence: it is a fast
+machine and a sick one averaged together, and neither regime is near 4.2. The
+lesson I drew at the time, that a synthetic benchmark predicts synthetic
+throughput, is not what the log shows. The benchmark was pessimistic about real
+batches and simply had no way to know another process would take a quarter of
+the memory halfway through.
 
 The loss was down to 0.003 by step 140 of 1014 and first touched 0.0001 at
 step 200, inside the first epoch, so **3 epochs was roughly 3× more than this
