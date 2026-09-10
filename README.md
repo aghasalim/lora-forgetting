@@ -5,16 +5,12 @@
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 Fine-tuning `Qwen2.5-1.5B-Instruct` with LoRA to pull structured JSON out of
-informal expense messages, by a third-year Applied Computer Science (AI)
-student. Trained on a MacBook Pro, no CUDA, no cloud GPU.
+informal expense messages. Trained on a MacBook Pro, no CUDA, no cloud GPU.
 
 "I fine-tuned a model and the loss went down" is not a result. The two things
 that make it one are a baseline you measured before you started, and a check
 that you did not quietly break everything else. Both are here, and both numbers
 lead.
-
----
-
 
 ---
 
@@ -132,11 +128,11 @@ make setup && make data && make baseline
 make train && make eval && make forgetting && make report
 ```
 
-That reproduces every number above. `make baseline` before `make train` is the
-order on purpose: a baseline measured after you already have a fine-tuned model
-is a baseline you can talk yourself out of. Every number is also recomputed from
-the raw prediction and log files by independent implementations in `verify/`,
-and CI fails the build if any of them disagree.
+Those three commands regenerate the whole results table. `make baseline` before
+`make train` is the order on purpose: a baseline measured after you already have
+a fine-tuned model is a baseline you can talk yourself out of. Each figure is
+also re-derived from the raw prediction and log files by the independent
+checkers in `verify/`; a divergence there fails the build.
 
 ```bash
 make app
@@ -184,7 +180,7 @@ src/loraft/
   forgetting.py   knowledge vs instruction-following, measured separately
 eval/eval_set.jsonl   45 hand-written cases
 tests/                20 tests, no model or network needed
-verify/               the published numbers, recomputed independently
+verify/               every RESULTS.md row, re-derived from the raw JSON
 RESULTS.md            generated from the measured JSON, not hand-typed
 ```
 
@@ -194,8 +190,7 @@ MIT, see [LICENSE](LICENSE).
 
 ## References
 
-The papers and sources this implementation follows. Each one is here because
-the code uses the method, the dataset or the metric it describes.
+Where the method, the effect it risks and the tooling all come from.
 
 - **Hu, Shen, Wallis et al. LoRA: Low-Rank Adaptation of Large Language Models. ICLR 2022.** [arXiv:2106.09685](https://arxiv.org/abs/2106.09685) the adaptation method.
 - **Kirkpatrick, Pascanu, Rabinowitz et al. Overcoming catastrophic forgetting in neural networks. PNAS 114, 2017.** [arXiv:1612.00796](https://arxiv.org/abs/1612.00796) the forgetting this repo measures.
