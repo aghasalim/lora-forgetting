@@ -39,7 +39,7 @@ jobs:
       # means two implementations disagree about what the data says.
       - run: ./verify/verify.sh
 
-      # A check that passes on corrupted input is checking nothing, so the run
+      # A check that cannot fail is not a check, so the run
       # is repeated on a damaged predictions file and is required to fail.
       - name: the checks must reject a corrupted results file
         run: |
