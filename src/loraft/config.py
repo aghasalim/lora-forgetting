@@ -78,7 +78,7 @@ LORA_DROPOUT = 0.05
 # Not tuned: r=16 and this module set were chosen up front and never swept, so
 # nothing here is claimed to be optimal. The rank/target sweep is listed as
 # untested in the README rather than implied to have been done: one run took
-# 74 minutes on this hardware and a sweep was out of budget.
+# 73.9 minutes on this hardware and a sweep was out of budget.
 TARGET_MODULES = ["q_proj", "k_proj", "v_proj", "o_proj"]
 
 # --- Training -------------------------------------------------------------

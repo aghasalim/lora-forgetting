@@ -145,7 +145,7 @@ make app
 it changed the project twice. First it ruled out float32: at fp32 the run needed
 19.5 GB and 69 s/step, in bfloat16 it needed 14.2 GB and 4.2 s/step. Then the
 prediction itself turned out to be wrong, because it timed fixed-length dummy
-batches, and the real run on variable-length ones took 74 minutes. Loss was
+batches, and the real run on variable-length ones took 73.9 minutes. Loss was
 already down to 0.003 by step 140 of 1014 and first touched 0.0001 at step 200,
 so three epochs was roughly three times more than this task needed.
 
@@ -153,15 +153,15 @@ so three epochs was roughly three times more than this task needed.
 
 ![the same training run replayed against the wall clock](reports/figures/training.gif)
 
-*The whole 74 minute run against the wall clock. Worth watching for the pace rather than the shape: most of the drop is over inside the first quarter, which is why the feasibility check mattered more than the loss curve did.*
+*The whole run, 73.9 minutes of it, against the wall clock. Worth watching for the pace rather than the shape: most of the drop is over inside the first quarter, which is why the feasibility check mattered more than the loss curve did.*
 
-The feasibility numbers, the Docker stall and where the 74 minutes went: [the notes](notes/METHODS.md#4-notes-on-training-this-on-a-laptop).
+The feasibility numbers, the Docker stall and where the 73.9 minutes went: [the notes](notes/METHODS.md#4-notes-on-training-this-on-a-laptop).
 The run itself, read back from the log with every setting traced to its
 line, is in [notes/TRAINING.md](notes/TRAINING.md).
 ## 7. Limitations
 
 - **No rank or target-module sweep.** `r=16` on attention projections was chosen
-  up front and never varied. One run is 74 minutes on this hardware, so a sweep
+  up front and never varied. One run is 73.9 minutes on this hardware, so a sweep
   was out of budget. Nothing in this repo claims those values are optimal.
 - **No hosted live demo.** The comparison app reads precomputed predictions
   because a 1.5B model needs ~3 GB against a 1 GB free tier. Showing all 45

@@ -1,6 +1,6 @@
 // Check section 6 of the README against reports/train_log.csv.
 //
-// Section 6 makes five claims about a training run that took 74 minutes and is
+// Section 6 makes five claims about a training run that took 73.9 minutes and is
 // never going to be repeated: how long it took, where the loss was at step 140,
 // where it first touched 0.0001, where it ended, and how many steps there were.
 // Those numbers were typed into the README by hand from a run that has since
@@ -100,12 +100,13 @@ const readme = fs.readFileSync(path.join(root, "README.md"), "utf8")
     .replace(/\s+/g, " ");
 let checked = 0;
 
-const wall = claim(readme, /real run on variable-length ones took (\d+) minutes/g, "wall clock");
+const wall = claim(readme, /real run on variable-length ones took (\d+(?:\.\d+)?) minutes/g, "wall clock");
 if (wall) {
     const claimed = Number(wall[1]);
-    const got = Math.round(minutes);
+    const got = Number(minutes.toFixed(1));
     checked++;
-    if (claimed !== got) {
+    // The README quotes one decimal, so it is held to one decimal.
+    if (Math.abs(claimed - got) > 0.05) {
         fail(`the README says ${claimed} minutes, the log says ${got}`);
     }
 }
