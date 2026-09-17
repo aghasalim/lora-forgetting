@@ -92,7 +92,7 @@ model lost neither the facts nor the habit of answering in prose.
 
 ![the same ARC items scored two ways](reports/figures/arc-protocol.png)
 
-Full detail in [notes/METHODS.md](notes/METHODS.md#2-why-the-forgetting-check-is-two-measurements).
+The two protocols, and the 16.7 point gap between them on the same items, are worked through in [the notes](notes/METHODS.md#1-why-the-forgetting-check-is-two-measurements).
 ## 3. What the aggregate number hides
 Two slices get worse while the aggregate improves: written-out amounts drop from
 100% to 60%, currency from 80% to 60%. I read all four broken cases and three are
@@ -102,7 +102,7 @@ appeared in the training data. Across the whole benchmark category still went
 
 ![per-slice change after tuning](reports/figures/by-kind.png)
 
-Full detail in [notes/METHODS.md](notes/METHODS.md#3-what-the-aggregate-number-hides).
+All four broken cases are read individually in [the notes](notes/METHODS.md#2-what-the-aggregate-number-hides).
 ## 4. The generalisation gap I built the experiment to see
 | set | base | fine-tuned |
 |---|---|---|
@@ -117,7 +117,7 @@ one out here, scoring worse on the synthetic set (28.0%) than on the hand-writte
 one (46.7%), because the benchmark uses famous vendors it already knew from
 pretraining while the synthetic set mixes obscure ones with ten currencies.
 
-Full detail in [notes/METHODS.md](notes/METHODS.md#4-the-generalisation-gap-i-built-the-experiment-to-see).
+How the benchmark was kept disjoint from the training generator is in [the notes](notes/METHODS.md#3-the-generalisation-gap-i-built-the-experiment-to-see).
 ## 5. Running it
 
 ```bash
@@ -155,7 +155,7 @@ so three epochs was roughly three times more than this task needed.
 
 *The whole 74 minute run against the wall clock. Worth watching for the pace rather than the shape: most of the drop is over inside the first quarter, which is why the feasibility check mattered more than the loss curve did.*
 
-Full detail in [notes/METHODS.md](notes/METHODS.md#6-notes-on-training-this-on-a-laptop).
+The feasibility numbers, the Docker stall and where the 74 minutes went: [the notes](notes/METHODS.md#4-notes-on-training-this-on-a-laptop).
 The run itself, read back from the log with every setting traced to its
 line, is in [notes/TRAINING.md](notes/TRAINING.md).
 ## 7. Limitations

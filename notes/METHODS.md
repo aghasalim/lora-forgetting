@@ -1,9 +1,9 @@
 # Methods and detail
 
-Long form detail moved out of the README.
+The parts of the write-up that would have made the README too long to read in one go: the two forgetting protocols, the per-slice breakdown, the split I built to catch template memorisation, and what training on a laptop actually cost.
 
 
-## 2. Why the forgetting check is two measurements
+## 1. Why the forgetting check is two measurements
 
 
 ![the same ARC items scored two ways](../reports/figures/arc-protocol.png)
@@ -26,7 +26,7 @@ have pointed at the wrong remedy. Here both held, so neither fix is needed.
 ---
 
 
-## 3. What the aggregate number hides
+## 2. What the aggregate number hides
 
 
 ![per-slice change after tuning](../reports/figures/by-kind.png)
@@ -77,7 +77,7 @@ conformance) and that accounts for much of the headline gain.
 ---
 
 
-## 4. The generalisation gap I built the experiment to see
+## 3. The generalisation gap I built the experiment to see
 
 
 | set | base | fine-tuned |
@@ -100,7 +100,7 @@ mixes obscure vendors with ten currencies including DKK, NOK and PLN.
 ---
 
 
-## 6. Notes on training this on a laptop
+## 4. Notes on training this on a laptop
 
 
 ![training loss](../reports/figures/training.png)

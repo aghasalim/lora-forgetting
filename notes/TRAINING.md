@@ -60,7 +60,7 @@ and the README rounds that to 74. Averaged over the whole run that is
 
 The slowest ten-step interval is 360 to 370 at 16.0 s per step. From
 step 420 on, every interval sits at 2.3 to 2.5 s. This is the stall
-described in `notes/METHODS.md` section 6, a Docker VM holding 6 GB
+described in `notes/METHODS.md` section 4, a Docker VM holding 6 GB
 until it was found and stopped, and the log places the recovery at
 about step 420, 27 minutes in. The 7 to 15 s per step quoted there is
 the stalled stretch, not the run. Free of it, the machine ran a third
@@ -104,6 +104,6 @@ the whole log read exactly 0.0.
 - Memory during the run. The 14.2 GB in `config.py:24` is from the
   feasibility check, not from this training.
 - The exact total step count as a logged number. 1,014 is derived above.
-- `notes/METHODS.md` section 6 says the loss was 0.0001 by step 140; the
+- `notes/METHODS.md` section 4 says the loss was 0.0001 by step 140; the
   log says 0.0027 at 140 and 0.0001 first at 200, which is what the
   README says. The METHODS sentence is the one that is off.
