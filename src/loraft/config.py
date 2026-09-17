@@ -1,7 +1,7 @@
 """Central configuration.
 
 Defaults are the ones the feasibility run justified, not the ones a tutorial
-would use, see `scripts/feasibility.py` and entry 1 of NOTES.md.
+would use, see `scripts/feasibility.py` and section 6 of `notes/METHODS.md`.
 """
 from __future__ import annotations
 
