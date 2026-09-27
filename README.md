@@ -3,6 +3,7 @@
 [![ci](https://github.com/aghasalim/lora-forgetting/actions/workflows/ci.yml/badge.svg)](https://github.com/aghasalim/lora-forgetting/actions/workflows/ci.yml)
 [![python](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23003658.svg)](https://doi.org/10.5281/zenodo.23003658)
 
 Fine-tuning `Qwen2.5-1.5B-Instruct` with LoRA to pull structured JSON out of
 informal expense messages. Trained on a MacBook Pro, no CUDA, no cloud GPU.
