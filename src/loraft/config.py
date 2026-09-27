@@ -82,7 +82,7 @@ LORA_DROPOUT = 0.05
 # nothing here is claimed to be optimal. The rank/target sweep is listed as
 # untested in the README rather than implied to have been done: one run took
 # 73.9 minutes on this hardware and a sweep was out of budget.
-TARGET_MODULES = ["q_proj", "k_proj", "v_proj", "o_proj"]
+TARGET_MODULES = os.getenv("TARGETS", "q_proj,k_proj,v_proj,o_proj").split(",")
 
 # --- Training -------------------------------------------------------------
 EPOCHS = int(os.getenv("EPOCHS", "3"))
