@@ -233,7 +233,7 @@ A thin sweep. `r=8` and `r=32` were run once each and the MLP targets three
 times (section 3). None of them separates cleanly from the seed spread of
 `r=16`. Nothing in this repo claims these values are optimal.
 
-The forgetting check has three seeds, not five. Section 1 is the laptop run
+The forgetting check has three seeds. Section 1 is the laptop run
 and seeds 1 and 2 were rechecked on a GPU (section 3). The other runs were
 scored on the target task only.
 
