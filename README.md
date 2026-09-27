@@ -29,9 +29,9 @@ ARC generative accuracy and open-ended answering are unchanged to the digit.
 The more useful result is in the per-slice breakdown. The aggregate improvement
 hides two slices that get *worse*: `written_amount` falls from 1.00 to 0.60 and
 `currency` from 0.80 to 0.60, while two more are unchanged. Rerunning with more
-seeds showed only one of those is real. `written_amount` is worse in every one
-of 5 runs, `currency` in 3 of 5, and the headline itself moves between 66.7%
-and 82.2% with the training seed.
+seeds showed only one of those is real. `written_amount` is worse in 11 of 15
+runs, `currency` in 5 of 15, and the headline itself moves between 66.7% and
+82.2% with the training seed.
 
 A separate finding concerns the forgetting check itself. Scoring ARC by
 log-likelihood ranking and by free generation disagrees by 16.7 points on
@@ -127,22 +127,52 @@ per-slice numbers. The base model scores 48.9% there against 46.7% on the Mac,
 one case out of 45 that flips on different hardware, so the GPU rows are
 compared with the GPU base.
 
-Three things change my reading of section 3.
+The first batch changes my reading of section 3 in two ways. The headline has
+a wide seed spread: at `r=16` the three seeds give 66.7%, 75.6% and 82.2%, mean
+74.8% and sd 7.8 points, and the published 75.6% happened to be the middle one.
+The gain over base holds on every seed, the worst being 17.8 points, but "+28.9"
+is one draw from a range. And `r=8` and `r=32` land at 77.8% and 75.6%, inside
+that spread, so one seed each cannot rank them.
 
-**The headline has a wide seed spread.** At `r=16` the three seeds give 66.7%,
-75.6% and 82.2%, mean 74.8% and sd 7.8 points. The published 75.6% happened to be
-the middle one. The gain over base holds on every seed, the worst being 17.8
-points, but "+28.9" is one draw from a range, and I would now quote it as
-roughly +26 with a spread of 8.
+### A second batch, on a different GPU
 
-**`written_amount` is a real regression, `currency` is not clear.** Written-out
-amounts are worse than base in all 5 runs. Currency is worse in 3 of 5 and back
-at the base value in the other two, which is what noise on 5 cases looks like.
+The second batch ran on an RTX A5000, since the 3090 was gone by then
+([`reports/sweep_a5000/`](reports/sweep_a5000/)). It asks three more questions:
+do more seeds change the picture, are three epochs needed, and does putting
+LoRA on the MLP projections as well help. Every row is `r=16`.
 
-**Rank does not matter at this scale, as far as this can tell.** `r=8` and
-`r=32` land at 77.8% and 75.6%, both inside the seed spread of `r=16`. One seed
-each cannot rank them. Every run trained in about 166 s on the 3090, against
-73.9 minutes on the laptop.
+| setting | seeds | every field correct, per seed | mean |
+| --- | --- | --- | ---: |
+| attention, 3 epochs | 1, 2, 3, 4 | 71.1%, 80.0%, 68.9%, 80.0% | 75.0% |
+| attention, 1 epoch | 42, 1, 2 | 71.1%, 80.0%, 75.6% | 75.6% |
+| attention and MLP, 3 epochs | 42, 1, 2 | 77.8%, 82.2%, 77.8% | 79.3% |
+
+**The hardware moves the number too.** Seed 1 gives 66.7% on the 3090 and 71.1%
+on the A5000, seed 2 gives 82.2% and 80.0%. Same code, same seed, same data, and
+one or two of the 45 cases flip between GPUs. So a single run on this benchmark
+is not reproducible to better than about 4 points even with the seed fixed.
+
+**One epoch is enough.** It scores the same as three, 75.6% against 75.0%, in 50
+s of training instead of 152 s. Section 6 said three epochs was about three
+times more than the task needed. That was a guess from the loss curve and this
+confirms it.
+
+**The MLP projections are the only change that looks like a gain.** 79.3% mean,
+and no seed below 77.8%. It is still inside the spread of the attention runs, so
+three seeds do not settle it, but it is the setting I would try first with more
+compute.
+
+**`written_amount` is mostly a real regression, `currency` is noise.** Across
+all 15 tuned runs written-out amounts are worse than base in 11 and currency in
+5. With the original attention-only setup it is worse in 6 of 7. The MLP runs
+keep it at base in 2 of 3, which fits the idea that the attention-only adapter
+is too narrow for that slice, but 3 runs is not evidence of that.
+
+**Forgetting holds on more seeds.** I reran the ARC check for seeds 1 and 2 on
+the A5000. Log-likelihood came out at 71.3% and 72.0% against 71.3% for the base
+model on the same GPU, generated answers at 88.0% and 88.7% against 88.7%. That
+is the same no-forgetting result as section 1, now on three seeds.
+
 ## 4. The generalisation gap I built the experiment to see
 | set | base | fine-tuned |
 |---|---|---|
@@ -200,14 +230,13 @@ The run itself, read back from the log with every setting traced to its
 line, is in [notes/TRAINING.md](notes/TRAINING.md).
 ## 7. Limitations
 
-**A thin rank sweep and no target-module sweep.** `r=8` and `r=32` were run
-once each on a GPU (section 3) and neither separates from the seed spread of
-`r=16`. The MLP projections were never tried. Nothing in this repo claims these
-values are optimal.
+**A thin sweep.** `r=8` and `r=32` were run once each and the MLP targets three
+times (section 3). None of them separates cleanly from the seed spread of
+`r=16`. Nothing in this repo claims these values are optimal.
 
-**The forgetting check is from one seed.** The sweep reran the target task
-only. The ARC and open-ended numbers in section 1 are still the single laptop
-run.
+**The forgetting check has three seeds, not five.** Section 1 is the laptop run
+and seeds 1 and 2 were rechecked on a GPU (section 3). The other runs were
+scored on the target task only.
 
 **No hosted live demo.** The comparison app reads precomputed predictions
 because a 1.5B model needs ~3 GB against a 1 GB free tier. Showing all 45
