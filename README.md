@@ -38,7 +38,7 @@ log-likelihood ranking and by free generation disagrees by 16.7 points on
 identical items and the identical model, so which protocol a forgetting claim
 used is part of that claim.
 
-**Contributions.** (i) Task gain and capability retention measured on the same
+Contributions. (i) Task gain and capability retention measured on the same
 adapter. (ii) A per-slice breakdown showing redistribution the aggregate hides.
 (iii) Evidence that ARC scoring protocol shifts the number by more than the
 fine-tuning does.
@@ -66,7 +66,7 @@ fine-tuning does.
 | open-ended factual probes | 100% | 100% | 0.0 |
 
 **No catastrophic forgetting**: and I want to be careful about how that reads,
-because it is a real result rather than a relieved shrug. This adapter is 0.28%
+because it is a real result instead of a relieved shrug. This adapter is 0.28%
 of the model's parameters, trained to complete convergence (final loss 0.0000)
 on a narrow task whose every answer is a JSON object. That is roughly the recipe
 you would design if you *wanted* to over-specialise a model. It still answers
@@ -147,28 +147,28 @@ LoRA on the MLP projections as well help. Every row is `r=16`.
 | attention, 1 epoch | 42, 1, 2 | 71.1%, 80.0%, 75.6% | 75.6% |
 | attention and MLP, 3 epochs | 42, 1, 2 | 77.8%, 82.2%, 77.8% | 79.3% |
 
-**The hardware moves the number too.** Seed 1 gives 66.7% on the 3090 and 71.1%
+The hardware moves the number too. Seed 1 gives 66.7% on the 3090 and 71.1%
 on the A5000, seed 2 gives 82.2% and 80.0%. Same code, same seed, same data, and
 one or two of the 45 cases flip between GPUs. So a single run on this benchmark
 is not reproducible to better than about 4 points even with the seed fixed.
 
-**One epoch is enough.** It scores the same as three, 75.6% against 75.0%, in 50
+One epoch is enough. It scores the same as three, 75.6% against 75.0%, in 50
 s of training instead of 152 s. Section 6 said three epochs was about three
 times more than the task needed. That was a guess from the loss curve and this
 confirms it.
 
-**The MLP projections are the only change that looks like a gain.** 79.3% mean,
+The MLP projections are the only change that looks like a gain. 79.3% mean,
 and no seed below 77.8%. It is still inside the spread of the attention runs, so
 three seeds do not settle it, but it is the setting I would try first with more
 compute.
 
-**`written_amount` is mostly a real regression, `currency` is noise.** Across
+`written_amount` is mostly a real regression, `currency` is noise. Across
 all 15 tuned runs written-out amounts are worse than base in 11 and currency in
 5. With the original attention-only setup it is worse in 6 of 7. The MLP runs
 keep it at base in 2 of 3, which fits the idea that the attention-only adapter
 is too narrow for that slice, but 3 runs is not evidence of that.
 
-**Forgetting holds on more seeds.** I reran the ARC check for seeds 1 and 2 on
+Forgetting holds on more seeds. I reran the ARC check for seeds 1 and 2 on
 the A5000. Log-likelihood came out at 71.3% and 72.0% against 71.3% for the base
 model on the same GPU, generated answers at 88.0% and 88.7% against 88.7%. That
 is the same no-forgetting result as section 1, now on three seeds.
@@ -223,27 +223,27 @@ so three epochs was roughly three times more than this task needed.
 
 ![the same training run replayed against the wall clock](reports/figures/training.gif)
 
-*The whole run, 73.9 minutes of it, against the wall clock. Worth watching for the pace rather than the shape: most of the drop is over inside the first quarter, which is why the feasibility check mattered more than the loss curve did.*
+*The whole run, 73.9 minutes of it, against the wall clock. Worth watching for the pace instead of the shape: most of the drop is over inside the first quarter, which is why the feasibility check mattered more than the loss curve did.*
 
 The feasibility numbers, the Docker stall and where the 73.9 minutes went: [the notes](notes/METHODS.md#4-notes-on-training-this-on-a-laptop).
 The run itself, read back from the log with every setting traced to its
 line, is in [notes/TRAINING.md](notes/TRAINING.md).
 ## 7. Limitations
 
-**A thin sweep.** `r=8` and `r=32` were run once each and the MLP targets three
+A thin sweep. `r=8` and `r=32` were run once each and the MLP targets three
 times (section 3). None of them separates cleanly from the seed spread of
 `r=16`. Nothing in this repo claims these values are optimal.
 
-**The forgetting check has three seeds, not five.** Section 1 is the laptop run
+The forgetting check has three seeds, not five. Section 1 is the laptop run
 and seeds 1 and 2 were rechecked on a GPU (section 3). The other runs were
 scored on the target task only.
 
-**No hosted live demo.** The comparison app reads precomputed predictions
+No hosted live demo. The comparison app reads precomputed predictions
 because a 1.5B model needs ~3 GB against a 1 GB free tier. Showing all 45
 benchmark cases is more informative than a text box anyway, you can see the
-failures rather than the examples I would have picked.
+failures instead of the examples I would have picked.
 
-**No QLoRA comparison.** `bitsandbytes` has no MPS backend, so 4-bit
+No QLoRA comparison. `bitsandbytes` has no MPS backend, so 4-bit
 quantisation is not available on this machine at all.
 
 ## 8. Repository layout
