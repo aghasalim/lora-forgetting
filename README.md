@@ -28,9 +28,10 @@ ARC generative accuracy and open-ended answering are unchanged to the digit.
 
 The more useful result is in the per-slice breakdown. The aggregate improvement
 hides two slices that get *worse*: `written_amount` falls from 1.00 to 0.60 and
-`currency` from 0.80 to 0.60, while two more are unchanged. The adapter is
-redistributing accuracy across question kinds, not lifting all of them, which a
-single headline number cannot show.
+`currency` from 0.80 to 0.60, while two more are unchanged. Rerunning with more
+seeds showed only one of those is real. `written_amount` is worse in every one
+of 5 runs, `currency` in 3 of 5, and the headline itself moves between 66.7%
+and 82.2% with the training seed.
 
 A separate finding concerns the forgetting check itself. Scoring ARC by
 log-likelihood ranking and by free generation disagrees by 16.7 points on
@@ -103,6 +104,45 @@ appeared in the training data. Across the whole benchmark category still went
 ![per-slice change after tuning](reports/figures/by-kind.png)
 
 All four broken cases are read individually in [the notes](notes/METHODS.md#2-what-the-aggregate-number-hides).
+
+### Is it the seed?
+
+Each slice has 5 cases, so one case is 20 points and a single run cannot tell a
+regression from luck. I reran training on a rented RTX 3090 with two more seeds
+at `r=16`, and with `r=8` and `r=32` at the original seed, alpha kept at twice
+the rank. Same data, same prompts, same 45 cases. The raw predictions and logs
+are in [`reports/sweep/`](reports/sweep/).
+
+| run | every field correct | `written_amount` | `currency` |
+| --- | ---: | ---: | ---: |
+| base | 48.9% | 1.0 | 0.8 |
+| r=16, seed 42 | 75.6% | 0.6 | 0.6 |
+| r=16, seed 1 | 66.7% | 0.4 | 0.6 |
+| r=16, seed 2 | 82.2% | 0.8 | 0.8 |
+| r=8, seed 42 | 77.8% | 0.8 | 0.6 |
+| r=32, seed 42 | 75.6% | 0.8 | 0.8 |
+
+Seed 42 on the GPU reproduced the published run exactly, 75.6% with the same
+per-slice numbers. The base model scores 48.9% there against 46.7% on the Mac,
+one case out of 45 that flips on different hardware, so the GPU rows are
+compared with the GPU base.
+
+Three things change my reading of section 3.
+
+**The headline has a wide seed spread.** At `r=16` the three seeds give 66.7%,
+75.6% and 82.2%, mean 74.8% and sd 7.8 points. The published 75.6% happened to be
+the middle one. The gain over base holds on every seed, the worst being 17.8
+points, but "+28.9" is one draw from a range, and I would now quote it as
+roughly +26 with a spread of 8.
+
+**`written_amount` is a real regression, `currency` is not clear.** Written-out
+amounts are worse than base in all 5 runs. Currency is worse in 3 of 5 and back
+at the base value in the other two, which is what noise on 5 cases looks like.
+
+**Rank does not matter at this scale, as far as this can tell.** `r=8` and
+`r=32` land at 77.8% and 75.6%, both inside the seed spread of `r=16`. One seed
+each cannot rank them. Every run trained in about 166 s on the 3090, against
+73.9 minutes on the laptop.
 ## 4. The generalisation gap I built the experiment to see
 | set | base | fine-tuned |
 |---|---|---|
@@ -160,9 +200,13 @@ The run itself, read back from the log with every setting traced to its
 line, is in [notes/TRAINING.md](notes/TRAINING.md).
 ## 7. Limitations
 
-- **No rank or target-module sweep.** `r=16` on attention projections was chosen
-  up front and never varied. One run is 73.9 minutes on this hardware, so a sweep
-  was out of budget. Nothing in this repo claims those values are optimal.
+- **A thin rank sweep and no target-module sweep.** `r=8` and `r=32` were run
+  once each on a GPU (section 3) and neither separates from the seed spread of
+  `r=16`. The MLP projections were never tried. Nothing in this repo claims these
+  values are optimal.
+- **The forgetting check is from one seed.** The sweep reran the target task
+  only. The ARC and open-ended numbers in section 1 are still the single laptop
+  run.
 - **No hosted live demo.** The comparison app reads precomputed predictions
   because a 1.5B model needs ~3 GB against a 1 GB free tier. Showing all 45
   benchmark cases is more informative than a text box anyway, you can see the
