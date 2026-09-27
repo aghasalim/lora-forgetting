@@ -200,19 +200,22 @@ The run itself, read back from the log with every setting traced to its
 line, is in [notes/TRAINING.md](notes/TRAINING.md).
 ## 7. Limitations
 
-- **A thin rank sweep and no target-module sweep.** `r=8` and `r=32` were run
-  once each on a GPU (section 3) and neither separates from the seed spread of
-  `r=16`. The MLP projections were never tried. Nothing in this repo claims these
-  values are optimal.
-- **The forgetting check is from one seed.** The sweep reran the target task
-  only. The ARC and open-ended numbers in section 1 are still the single laptop
-  run.
-- **No hosted live demo.** The comparison app reads precomputed predictions
-  because a 1.5B model needs ~3 GB against a 1 GB free tier. Showing all 45
-  benchmark cases is more informative than a text box anyway, you can see the
-  failures rather than the examples I would have picked.
-- **No QLoRA comparison.** `bitsandbytes` has no MPS backend, so 4-bit
-  quantisation is not available on this machine at all.
+**A thin rank sweep and no target-module sweep.** `r=8` and `r=32` were run
+once each on a GPU (section 3) and neither separates from the seed spread of
+`r=16`. The MLP projections were never tried. Nothing in this repo claims these
+values are optimal.
+
+**The forgetting check is from one seed.** The sweep reran the target task
+only. The ARC and open-ended numbers in section 1 are still the single laptop
+run.
+
+**No hosted live demo.** The comparison app reads precomputed predictions
+because a 1.5B model needs ~3 GB against a 1 GB free tier. Showing all 45
+benchmark cases is more informative than a text box anyway, you can see the
+failures rather than the examples I would have picked.
+
+**No QLoRA comparison.** `bitsandbytes` has no MPS backend, so 4-bit
+quantisation is not available on this machine at all.
 
 ## 8. Repository layout
 
