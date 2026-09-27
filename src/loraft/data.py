@@ -108,7 +108,7 @@ def _fmt_date(d: date, received: date, rng: random.Random) -> str:
     return d.strftime("%-d %b %Y")
 
 
-def generate(n: int | None = None, seed: int = config.SEED) -> list[dict]:
+def generate(n: int | None = None, seed: int = config.DATA_SEED) -> list[dict]:
     n = n or config.N_TRAIN
     rng = random.Random(seed)
     rows = []

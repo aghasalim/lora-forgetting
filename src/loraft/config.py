@@ -12,8 +12,8 @@ ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data"
 EVAL_DIR = ROOT / "eval"
 EVAL_SET = EVAL_DIR / "eval_set.jsonl"
-ADAPTER_DIR = ROOT / "artifacts" / "adapter"
-REPORTS = ROOT / "reports"
+ADAPTER_DIR = Path(os.getenv("ADAPTER_DIR", ROOT / "artifacts" / "adapter"))
+REPORTS = Path(os.getenv("REPORTS", ROOT / "reports"))
 
 # Ungated and Apache-2.0. Deliberate: a gated checkpoint makes the repo
 # unreproducible for anyone who has not accepted a licence, and this project
@@ -52,7 +52,10 @@ def __getattr__(name: str):
 
 
 
-SEED = 42
+# Training seed: weight init of the adapter and the shuffle order. The
+# training data is generated separately (data.py) and does not change with it.
+SEED = int(os.getenv("SEED", "42"))
+DATA_SEED = 42
 
 # --- Task -----------------------------------------------------------------
 CATEGORIES = ["travel", "meals", "software", "hardware", "office", "other"]
