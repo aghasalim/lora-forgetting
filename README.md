@@ -66,7 +66,7 @@ fine-tuning does.
 | open-ended factual probes | 100% | 100% | 0.0 |
 
 **No catastrophic forgetting**: and I want to be careful about how that reads,
-because it is a real result instead of a relieved shrug. This adapter is 0.28%
+because it is a real result. This adapter is 0.28%
 of the model's parameters, trained to complete convergence (final loss 0.0000)
 on a narrow task whose every answer is a JSON object. That is roughly the recipe
 you would design if you *wanted* to over-specialise a model. It still answers
@@ -152,8 +152,7 @@ on the A5000, seed 2 gives 82.2% and 80.0%. Same code, same seed, same data, and
 one or two of the 45 cases flip between GPUs. So a single run on this benchmark
 is not reproducible to better than about 4 points even with the seed fixed.
 
-One epoch is enough. It scores the same as three, 75.6% against 75.0%, in 50
-s of training instead of 152 s. Section 6 said three epochs was about three
+One epoch is enough. It scores the same as three, 75.6% against 75.0%, in 50 s of training against 152 s. Section 6 said three epochs was about three
 times more than the task needed. That was a guess from the loss curve and this
 confirms it.
 
@@ -223,7 +222,7 @@ so three epochs was roughly three times more than this task needed.
 
 ![the same training run replayed against the wall clock](reports/figures/training.gif)
 
-*The whole run, 73.9 minutes of it, against the wall clock. Worth watching for the pace instead of the shape: most of the drop is over inside the first quarter, which is why the feasibility check mattered more than the loss curve did.*
+*The whole run, 73.9 minutes of it, against the wall clock. Watch the pace more than the shape: most of the drop is over inside the first quarter, which is why the feasibility check mattered more than the loss curve did.*
 
 The feasibility numbers, the Docker stall and where the 73.9 minutes went: [the notes](notes/METHODS.md#4-notes-on-training-this-on-a-laptop).
 The run itself, read back from the log with every setting traced to its
@@ -240,8 +239,7 @@ scored on the target task only.
 
 No hosted live demo. The comparison app reads precomputed predictions
 because a 1.5B model needs ~3 GB against a 1 GB free tier. Showing all 45
-benchmark cases is more informative than a text box anyway, you can see the
-failures instead of the examples I would have picked.
+benchmark cases is more informative than a text box anyway, you see the failures, not just the examples I would have picked.
 
 No QLoRA comparison. `bitsandbytes` has no MPS backend, so 4-bit
 quantisation is not available on this machine at all.

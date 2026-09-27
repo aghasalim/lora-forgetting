@@ -79,7 +79,7 @@ def test_prose():
         f"worse in {worse_attn} of {len(attn)}",
         f"between {pct(min(r16))} and {pct(max(r16))}",
         f"no seed below {pct(min(mlp))}",
-        f"in {one} s of training instead of {three} s",
+        f"in {one} s of training against {three} s",
         f"Seed 1 gives {pct(acc(G, 'r16_s1'))} on the 3090 and {pct(acc(A, 'r16_s1'))}",
         f"seed 2 gives {pct(acc(G, 'r16_s2'))} and {pct(acc(A, 'r16_s2'))}",
     ]:
