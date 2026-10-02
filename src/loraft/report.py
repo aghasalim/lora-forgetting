@@ -15,7 +15,7 @@ FIELDS = ["json_parsed", "schema_ok", "vendor", "amount", "currency", "date",
           "category", "all_correct"]
 
 
-def _load(name):
+def _load(name: str) -> dict | None:
     p = config.REPORTS / name
     return json.loads(p.read_text()) if p.exists() else None
 
