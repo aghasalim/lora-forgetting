@@ -45,7 +45,7 @@ class ExtractionDataset(Dataset):
         return {"input_ids": ids, "labels": labels}
 
 
-def collate(batch, pad_id: int):
+def collate(batch: list[dict], pad_id: int) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
     n = max(len(b["input_ids"]) for b in batch)
     ids, labels, mask = [], [], []
     for b in batch:
