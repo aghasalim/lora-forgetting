@@ -14,11 +14,14 @@ jobs:
           cache: pip
       # Scoring and data-generation tests only. They need no model, no GPU and
       # no network, so CI stays fast and reproducible for anyone.
-      - run: pip install pytest
-      - run: python -m pytest tests/ -q
+      - name: install
+        run: pip install pytest
+      - name: test
+        run: python -m pytest tests/ -q
 
       # RESULTS.md is generated. This fails if someone edits it by hand.
-      - run: python -m src.loraft.report --check
+      - name: RESULTS.md still matches the generator
+        run: python -m src.loraft.report --check
 
   verify:
     runs-on: ubuntu-latest
@@ -37,7 +40,8 @@ jobs:
 
       # Eight independent recomputations of the published numbers. Failing here
       # means two implementations disagree about what the data says.
-      - run: ./verify/verify.sh
+      - name: recompute every published number
+        run: ./verify/verify.sh
 
       # A check that cannot fail is not a check, so the run
       # is repeated on a damaged predictions file and is required to fail.
