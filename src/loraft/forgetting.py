@@ -20,11 +20,10 @@ numbers would point at the wrong remedy.
 from __future__ import annotations
 
 import json
-import re
 
 import torch
 
-from . import config, evaluate
+from . import config, evaluate, task
 
 N_MC = int(__import__("os").getenv("N_MC", "150"))
 
@@ -103,10 +102,10 @@ def mc_generative(tok, model, rows: list[dict]) -> tuple[float, float]:
         out = tok.decode(model.generate(**enc, max_new_tokens=8, do_sample=False,
                                         pad_token_id=tok.pad_token_id)[0][enc["input_ids"].shape[1]:],
                          skip_special_tokens=True).strip()
-        m = re.search(r"\b([A-E1-4])\b", out.upper())
-        if m:
+        letter = task.parse_mc_letter(out)
+        if letter:
             parsed += 1
-            if m.group(1) in r["labels"] and r["labels"].index(m.group(1)) == r["answer"]:
+            if letter in r["labels"] and r["labels"].index(letter) == r["answer"]:
                 correct += 1
         print(f"  gen {i+1}/{len(rows)}", end="\r")
     print()

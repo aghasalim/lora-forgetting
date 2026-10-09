@@ -23,6 +23,12 @@ was over-specialised into one output format, and the fix is mixing general data
 back into training, not lowering the learning rate. Reporting one number would
 have pointed at the wrong remedy. Here both held, so neither fix is needed.
 
+The 88.7% generative figures were scored by an older parser that searched the
+upper-cased reply for any standalone A to E, so the article in "It's a B" read
+as A. Since 2026-10-10 the letter has to open the reply or follow "answer is".
+The raw ARC replies were not saved, so the published numbers still come from the
+old parser until the forgetting check is rerun.
+
 ---
 
 

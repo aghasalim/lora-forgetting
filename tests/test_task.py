@@ -109,3 +109,12 @@ def test_generator_produces_null_examples():
 ])
 def test_norm_amount_comma(raw, want):
     assert task._norm_amount(raw) == want
+
+
+@pytest.mark.parametrize("out,want", [
+    ("B", "B"), ("B. Paris", "B"), ("(C)", "C"), ("Answer: D", "D"), ("3", "3"),
+    ("The answer is B.", "B"), ("It's a B", None), ("a", None), ("I think a good guess", None),
+    ("A", "A"), ("A) the sun", "A"),
+])
+def test_parse_mc_letter(out, want):
+    assert task.parse_mc_letter(out) == want
