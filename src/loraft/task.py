@@ -14,6 +14,19 @@ import unicodedata
 from . import config
 
 
+# A multiple-choice reply, read case-sensitively from the raw text. The label
+# has to open the reply ("B", "B. Paris", "(B)", "Answer: B") or follow
+# "answer is". Searching anywhere in out.upper() read the article in "It's a B"
+# as the letter A.
+_MC_LEAD = re.compile(r"^\s*(?:(?i:answer|option|choice)\s*:?\s*)?\(?([A-E1-4])(?![\w'])")
+_MC_SAID = re.compile(r"(?i:answer\s+is)\s*:?\s*\(?([A-E1-4])(?![\w'])")
+
+
+def parse_mc_letter(out: str) -> str | None:
+    m = _MC_LEAD.search(out) or _MC_SAID.search(out)
+    return m.group(1) if m else None
+
+
 def build_messages(received: str, text: str) -> list[dict]:
     """Chat messages for one example.
 
