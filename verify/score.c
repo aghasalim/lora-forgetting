@@ -506,10 +506,23 @@ static Norm norm_amount(const JVal *v)
                 }
             }
         } else if (last_comma) {
-            size_t tail = k - (size_t)(last_comma - buf) - 1;
+            /* thousands only for -?d{1,3}(,ddd)+ ; any other comma is a decimal
+               comma, so "12,5" is 12.5 and "1,204" is 1204 */
+            int thousands = 1;
+            size_t lead = 0, p0 = buf[0] == '-' ? 1 : 0;
+            for (j = p0; j < k && buf[j] != ','; j++)
+                lead++;
+            if (lead < 1 || lead > 3)
+                thousands = 0;
+            for (; thousands && j < k; j += 4) {
+                if (buf[j] != ',' || j + 3 >= k ||
+                    !isdigit((unsigned char)buf[j + 1]) || !isdigit((unsigned char)buf[j + 2]) ||
+                    !isdigit((unsigned char)buf[j + 3]))
+                    thousands = 0;
+            }
             for (j = 0; j < k; j++) {
                 if (buf[j] == ',') {
-                    if (tail == 2)
+                    if (!thousands)
                         tmp[w++] = '.';
                 } else {
                     tmp[w++] = buf[j];
