@@ -101,3 +101,11 @@ def test_generator_produces_null_examples():
     rows = data.generate(n=200)
     n_null = sum(1 for r in rows if all(r["gold"][f] is None for f in config.FIELDS))
     assert n_null > 0, "without all-null training rows the model never learns to abstain"
+
+
+@pytest.mark.parametrize("raw,want", [
+    ("12,5", 12.5), ("12,50", 12.5), ("1,204", 1204.0), ("12,000,000", 12000000.0),
+    ("1.204,55", 1204.55), ("1,204.55", 1204.55), ("€12,5", 12.5), ("-3,75", -3.75),
+])
+def test_norm_amount_comma(raw, want):
+    assert task._norm_amount(raw) == want

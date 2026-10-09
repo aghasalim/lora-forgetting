@@ -97,7 +97,10 @@ def _norm_amount(v) -> float | None:
     if "," in s and "." in s:
         s = s.replace(",", "") if s.rfind(".") > s.rfind(",") else s.replace(".", "").replace(",", ".")
     elif "," in s:
-        s = s.replace(",", ".") if len(s.split(",")[-1]) == 2 else s.replace(",", "")
+        # Only commas that split off groups of exactly three digits are
+        # thousands separators ("1,204", "12,000,000"). "12,5" and "12,50" are
+        # decimal commas.
+        s = s.replace(",", "") if re.fullmatch(r"-?\d{1,3}(,\d{3})+", s) else s.replace(",", ".")
     try:
         return round(float(s), 2)
     except ValueError:
