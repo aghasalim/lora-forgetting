@@ -26,8 +26,13 @@ have pointed at the wrong remedy. Here both held, so neither fix is needed.
 The 88.7% generative figures were scored by an older parser that searched the
 upper-cased reply for any standalone A to E, so the article in "It's a B" read
 as A. Since 2026-10-10 the letter has to open the reply or follow "answer is".
-The raw ARC replies were not saved, so the published numbers still come from the
-old parser until the forgetting check is rerun.
+I reran the forgetting check on 2026-10-15 with the strict parser, on an M-series
+Mac (MPS). Generated accuracy is 88.7% for both the base and the tuned model, with
+every reply parsed, so the published figure survives the parser change. The
+log-likelihood scores came out 71.3% for base and 72.0% for tuned, the reverse
+order of the table. That is one question out of 150, and the same two values
+already show up across seeds and GPUs below, so I left the published table as it
+is and read the knowledge change as zero within noise.
 
 ---
 
