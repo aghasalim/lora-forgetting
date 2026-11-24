@@ -1,5 +1,3 @@
-<p align="center"><img src="assets/banner.jpg" alt="Line drawing of a grid with a thin strip attached to its side, next to a balance scale resting level" width="100%"></p>
-
 # LoRA fine-tuning, with the forgetting check that usually gets skipped
 
 [![ci](https://github.com/aghasalim/lora-forgetting/actions/workflows/ci.yml/badge.svg)](https://github.com/aghasalim/lora-forgetting/actions/workflows/ci.yml)
