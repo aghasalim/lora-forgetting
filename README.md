@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/banner.jpg" alt="Line drawing of a grid with a thin strip attached to its side, next to a balance scale resting level" width="100%"></p>
+
 # LoRA fine-tuning, with the forgetting check that usually gets skipped
 
 [![ci](https://github.com/aghasalim/lora-forgetting/actions/workflows/ci.yml/badge.svg)](https://github.com/aghasalim/lora-forgetting/actions/workflows/ci.yml)
@@ -14,6 +16,23 @@ is a baseline measured before I started training. The other is a check that I
 didn't quietly break the rest of the model. I put both of them at the top.
 
 ---
+
+<details>
+<summary>Contents</summary>
+
+- [Abstract](#abstract)
+- [1. Both numbers, up front](#1-both-numbers-up-front)
+- [2. Why the forgetting check is two measurements](#2-why-the-forgetting-check-is-two-measurements)
+- [3. What the aggregate number hides](#3-what-the-aggregate-number-hides)
+- [4. The generalisation gap I built the experiment to see](#4-the-generalisation-gap-i-built-the-experiment-to-see)
+- [5. Running it](#5-running-it)
+- [6. Notes on training this on a laptop](#6-notes-on-training-this-on-a-laptop)
+- [7. Limitations](#7-limitations)
+- [8. Repository layout](#8-repository-layout)
+- [9. Licence](#9-licence)
+- [References](#references)
+
+</details>
 
 ## Abstract
 
